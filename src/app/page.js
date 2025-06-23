@@ -4,22 +4,22 @@ import Link from 'next/link';
 
 const Home = () => {
     return (
-        <main className="p-10 w-full min-h-screen flex-1 text-center text-neutral-800">
+        <main className="p-10 w-full min-h-screen flex flex-col justify-between lex-1 text-center">
             <div className="w-full mb-6">
                 <FiltersCard>
                     Bienvenue Lapino !
                 </FiltersCard>
             </div>
-            <p className='text-xl mt-8 mb-12'>Dans quelle catégorie souhaites-tu naviguer ?</p>
-            <div className="flex-1 flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 space-x-0 lg:space-x-10 xl:space-x-16">
+            <p className='text-xl flex-1 flex flex-row justify-center items-center'>Dans quelle catégorie souhaites-tu naviguer ?</p>
+            <div className="w-9/10 mt-10 mb-20 m-auto flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 space-x-0 lg:space-x-10 xl:space-x-16">
                 <Link href='/reservations'
                     className='basis-1/3 flex flex-col justify-center items-center'>
                     <Image
                         src="/images/calendrier.jpg"
                         alt="chambre par defaut"
-                        width={511}
-                        height={358}
-                        className="border-2 border-neutral-800 rounded-full"
+                        width={400}
+                        height={400}
+                        className="border-2 border-neutral-200 rounded-full"
                     />
                     <p className='text-2xl mt-4 font-medium'>Réservations</p>
                 </Link>
@@ -28,20 +28,20 @@ const Home = () => {
                     <Image
                         src="/images/bedroom.jpg"
                         alt="chambre par defaut"
-                        width={450}
-                        height={450}
-                        className="border-2 border-neutral-800 rounded-full"
+                        width={400}
+                        height={400}
+                        className="border-2 border-neutral-200 rounded-full"
                     />
                     <p className='text-2xl mt-4 font-medium'>Chambres</p>
                 </Link>
                 <Link href='/services'
                     className='basis-1/3 flex flex-col justify-center items-center'>
                     <Image
-                        src="/images/service.png"
+                        src="/images/services.jpg"
                         alt="chambre par defaut"
-                        width={771}
-                        height={775}
-                        className="border-2 border-neutral-800 rounded-full"
+                        width={400}
+                        height={400}
+                        className="border-2 border-neutral-200 rounded-full"
                     />
                     <p className='text-2xl mt-4 font-medium'>Services</p>
                 </Link>
