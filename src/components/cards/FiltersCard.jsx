@@ -1,0 +1,25 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react'
+
+const FiltersCard = ({children}) => {
+  return (
+    <div className='bg-neutral-300 flex-1 w-full rounded-xl m-auto drop-shadow-2xl/25 text-left flex flex-row justify-start'>
+        <Link href='/' className='basis-1/6 bg-neutral-800 py-4 px-4 rounded-l-xl'>
+            <Image
+                src="/images/logo_condorman.png"
+                alt="chambre par defaut"
+                width={472}
+                height={132}
+            />
+        </Link>
+        <div className='basis-4/6 flex justify-center items-center'>
+          <div className='text-2xl text-dark-900 pl-6'>
+              {children}
+          </div>
+        </div>
+    </div>
+  )
+}
+
+export default FiltersCard;
