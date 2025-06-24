@@ -8,8 +8,8 @@ const MiniatureReservation = () => {
     <div className='flex flex-row justify-between items-center text-dark-900'>
         <div className="basis-1/4 2xl:basis-2/7 w-full h-full overflow-hidden flex flex-col items-center justify-center rounded-xl drop-shadow-md space-y-2">
             <img
-                src="/images/chambre.jpg"
-                alt="chambre par defaut"
+                src="/images/chambre_double.jpg"
+                alt="chambre avec lit double bien décoré"
                 className="w-full h-auto object-cover rounded-xl drop-shadow-lg/25"
             />
             <p className='text-lg font-semibold'>Rose</p>
@@ -36,6 +36,7 @@ const MiniatureReservation = () => {
                     alt="chambre par defaut"
                     className="w-10 h-10 rounded-lg drop-shadow-lg/25"
                 />
+                <p className='self-end'>... Voir tout</p>
             </div>
             <div className='flex flex-row justify-around border border-gold-600 rounded-xl mt-2 p-1'>
                 <div className='flex flex-col justify-between items-center'>

@@ -12,6 +12,12 @@
   --color-gold-600: #B97D23;
   --color-gold-700: #AE771E;
   --color-gold-800: #A96A18;
+  --color-gris-10: #D1D4D6;
+  --color-gris-20: #D3D1D6;
+  --color-gris-30: #D6D1D4;
+  --color-gris-40: #D6D3D1;
+  --color-gris-50: #D4D6D1;
+  --color-gris-60: #D1D6D3;
   --font-display: 'Montserrat', sans-serif;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
