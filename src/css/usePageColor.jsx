@@ -7,7 +7,7 @@ const usePageColor = () => {
   const pageColors = {
     '/': 'bg-stone-300',
     '/reservations': 'bg-gris-10',
-    '/chambres': 'bg-gris-30',
+    '/bedrooms': 'bg-gris-30',
     '/services': 'bg-gris-60',
   };
 

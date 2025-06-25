@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const FiltersCard = ({ children }) => {
+const Header = ({ children }) => {
     return (
         <div className='bg-stone-300 flex-1 w-full rounded-xl m-auto drop-shadow-2xl/25 text-left flex flex-row justify-start'>
             <Link href='/' className='basis-1/4 md:basis-1/5 lg:basis-1/6 xl:basis-1/7 2xl:basis-1/8 bg-neutral-800 py-4 px-4 rounded-l-xl'>
@@ -21,4 +21,4 @@ const FiltersCard = ({ children }) => {
     )
 }
 
-export default FiltersCard;
+export default Header;

@@ -53,8 +53,8 @@ const MiniatureReservation = () => {
         <div className='mb-4'>
             <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>150</span>€</p>
             <p className='mx-2 text-sm'>Inclus charges et taxes</p></div>
-            <BasicButton>Check in</BasicButton>
-            <BasicButton>Modification</BasicButton>
+            <BasicButton linkPath={`/bedrooms`}>Check in</BasicButton>
+            <BasicButton linkPath={`/bedrooms`}>Modification</BasicButton>
             <DangerButton>Annulation</DangerButton>
         </div>
     </div>
