@@ -3,15 +3,28 @@ import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import BasicCard from "@/components/utils/cards/BasicCard";
 import Header from "@/components/utils/header-footer/Header";
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const FormRoomModification = ({room}) => {
-    const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
+const FormRoomModification = ({ room, roomTypes }) => {
+    const router = useRouter();
     const [modalOpen, setModalOpen] = useState(false);
-    const roomType = watch('roomType');
-    const description = watch('description');
-    const bedCapacity = watch('bedCapacity');
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors }
+    } = useForm({
+        defaultValues: {
+            name: room.name,
+            type: room.type,
+            bedCapacity: room.bedCapacity,
+            number: room.number,
+            price: room.price,
+            description: room.description
+        }
+    });
 
     const onSubmit = (data) => {
         console.log('Form data:', data);
@@ -22,6 +35,13 @@ const FormRoomModification = ({room}) => {
             <Header>
                 <h1 className="text-lg">Modification de la chambre : <span className="text-2xl">{room.name}</span></h1>
             </Header>
+            <button
+                onClick={() => router.back()} 
+                type="button" 
+                className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline my-6 ml-6">
+                <ChevronLeft className="w-5 h-5" />
+                <p>Retour</p>
+            </button>
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col justify-between items-start space-y-4 text-dark-900 py-2">
@@ -103,11 +123,6 @@ const FormRoomModification = ({room}) => {
                         </div>
 
                         <div className="w-full flex flex-row justify-start items-center">
-                            <button
-                                onClick={() => router.back()} type="button" className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline">
-                                <ChevronLeft className="w-5 h-5" />
-                                <p>Retour</p>
-                            </button>
                             <button type="submit" className="w-1/3 bg-teal-700 text-white rounded px-4 py-2 hover:bg-teal-600">
                                 Modifier
                             </button>
@@ -115,6 +130,7 @@ const FormRoomModification = ({room}) => {
 
                         <RoomTypeModal
                             isOpen={modalOpen}
+                            roomTypes={roomTypes}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
                                 setValue('type', type.libelle);

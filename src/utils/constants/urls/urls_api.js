@@ -9,3 +9,5 @@ export const GET_ROOM_TYPES = API_BASE + '/room-types';
 
 // SERVICES
 export const GET_SERVICES = API_BASE + '/services';
+export const GET_SERVICE_TYPES = API_BASE + '/service-types';
+export const GET_SERVICES_BY_ID = (id) => API_BASE + `/services/${id}`;

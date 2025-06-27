@@ -1,5 +1,5 @@
 import RoomCard from '@/components/rooms/RoomCard';
-import CreationCard from "@/components/utils/cards/CreationCard";
+import CreationCard from "@/components/utils/buttons/CreationButton";
 import GroupedAccordion from "@/components/utils/GroupedAccordion";
 import Header from "@/components/utils/header-footer/Header";
 import { GET_ROOMS } from "@/utils/constants/urls/urls_api";
@@ -17,7 +17,10 @@ export const rooms = async () => {
         <main className="p-10 w-full min-h-screen flex-1 text-center">
             <div className="mb-6">
                 <Header>
+                    <h1 className="text-xl">Liste des chambres</h1>
+                    <div className="text-2xl flex flex-row justify-around items-center">
                     <p>Nom</p> <p>numero</p>
+                    </div>
                 </Header>
             </div>
             <div className="w-full flex flex-row justify-start items-center space-x-8">

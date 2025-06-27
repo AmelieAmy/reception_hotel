@@ -1,8 +1,6 @@
-import { serviceTypeConstants } from '@/utils/constants/serviceTypeConstants';
-import { SquareX } from 'lucide-react'; 
-import { ChevronLeft } from 'lucide-react';
+import { SquareX } from 'lucide-react';
 
-const ServiceTypeModal = ({ isOpen, onClose, onSelect }) => {
+const ServiceTypeModal = ({ isOpen, onClose, onSelect, serviceTypes }) => {
     if (!isOpen) return null;
 
     return (
@@ -15,7 +13,7 @@ const ServiceTypeModal = ({ isOpen, onClose, onSelect }) => {
                     </button>
                 </div>
                 <ul className="flex flex-col justify-between items-center space-y-4">
-                    {serviceTypeConstants.map((srv) => (
+                    {serviceTypes.map((srv) => (
                         <li key={srv.id} className="border p-4 rounded hover:bg-stone-100 bg-stone-300">
                             <button
                                 onClick={() => {
@@ -24,15 +22,11 @@ const ServiceTypeModal = ({ isOpen, onClose, onSelect }) => {
                                 }}
                                 className="flex flex-col justify-between items-start text-left space-y-1"
                             >
-                                <p className="pl-4">Type : <span className="font-semibold">{srv.libelle}</span></p>
+                                <p className="pl-4">Type : <span className="font-semibold">{srv.typeName}</span></p>
                             </button>
                         </li>
                     ))}
                 </ul>
-                <button onClick={onClose} className="space-x-2 flex flex-row justify-start items-center mt-4 text-sm text-white hover:underline">
-                    <ChevronLeft className="w-5 h-5" />
-                    <p>Retour</p>
-                </button>
             </div>
         </div>
     );

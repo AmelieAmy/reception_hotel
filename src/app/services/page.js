@@ -1,5 +1,5 @@
 import ServiceCard from "@/components/services/ServiceCard";
-import CreationCard from "@/components/utils/cards/CreationCard";
+import CreationCard from "@/components/utils/buttons/CreationButton";
 import GroupedAccordion from "@/components/utils/GroupedAccordion";
 import Header from "@/components/utils/header-footer/Header";
 import { GET_SERVICES } from "@/utils/constants/urls/urls_api";
@@ -17,7 +17,10 @@ export const Services = () => {
         <main className="p-10 w-full min-h-screen flex-1 text-center">
             <div className="mb-6">
                 <Header>
-                    <p>Type</p> <p>Nom</p>
+                    <h1 className="text-lg">Liste des services</h1>
+                    <div className="text-2xl flex flex-row justify-around items-center">
+                        <p>Type</p> <p>Nom</p>
+                    </div>
                 </Header>
             </div>
             <CreationCard libelle='un service' linkPath={SERVICE_CREATION} />

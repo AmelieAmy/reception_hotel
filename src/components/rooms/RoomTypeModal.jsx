@@ -1,8 +1,6 @@
-import { dataRoomType } from "@/utils/data";
-import { SquareX } from 'lucide-react'; 
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, SquareX } from 'lucide-react';
 
-const RoomTypeModal = ({ isOpen, onClose, onSelect }) => {
+const RoomTypeModal = ({ isOpen, onClose, onSelect, roomTypes }) => {
     if (!isOpen) return null;
 
     return (
@@ -15,7 +13,7 @@ const RoomTypeModal = ({ isOpen, onClose, onSelect }) => {
                     </button>
                 </div>
                 <ul className="flex flex-col justify-between items-center space-y-4">
-                    {dataRoomType.map((type) => (
+                    {roomTypes.map((type) => (
                         <li key={type.id} className="border p-4 rounded hover:bg-stone-100 bg-stone-300">
                             <button
                                 onClick={() => {
@@ -31,10 +29,6 @@ const RoomTypeModal = ({ isOpen, onClose, onSelect }) => {
                         </li>
                     ))}
                 </ul>
-                <button onClick={onClose} className="space-x-2 flex flex-row justify-start items-center mt-4 text-sm text-white hover:underline">
-                    <ChevronLeft className="w-5 h-5" />
-                    <p>Retour</p>
-                </button>
             </div>
         </div>
     );
