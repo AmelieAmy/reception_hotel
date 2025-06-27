@@ -1,14 +1,14 @@
 'use client'
-import BasicCard from "@/components/cards/BasicCard";
-import Header from "@/components/header/Header";
-import { dataBedroom } from "@/utils/data";
+import BasicCard from "@/components/utils/cards/BasicCard";
+import Header from "@/components/utils/header-footer/Header";
+import { dataRoom } from "@/utils/data";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import BedroomTypeModal from "@/components/bedrooms/BedroomTypeModal";
+import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import { ChevronLeft } from 'lucide-react';
 
-const BedroomTypeCreation = () => {
+const RoomTypeCreation = () => {
     const router = useRouter();
     const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
     const [modalOpen, setModalOpen] = useState(false);
@@ -23,7 +23,7 @@ const BedroomTypeCreation = () => {
     return (
         <div className="p-10">
             <Header>
-                <h1 className="text-lg">Création d&apos;un type de chambre</h1>
+                <h1 className="text-lg">Création : <span className="text-2xl">Type de chambre</span></h1>
             </Header>
             <div className="w-1/3 mx-auto mt-10">
                 <BasicCard>
@@ -68,7 +68,7 @@ const BedroomTypeCreation = () => {
                             </button>
                         </div>
 
-                        <BedroomTypeModal
+                        <RoomTypeModal
                             isOpen={modalOpen}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
@@ -84,4 +84,4 @@ const BedroomTypeCreation = () => {
     )
 }
 
-export default BedroomTypeCreation;
+export default RoomTypeCreation;

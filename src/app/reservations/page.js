@@ -1,7 +1,7 @@
-import BasicCard from "@/components/cards/BasicCard";
-import CreationCard from "@/components/cards/CreationCard";
-import Header from "@/components/header/Header";
-import MiniatureReservation from "@/components/reservations/MiniatureReservation";
+'use client'
+import ReservationCard from "@/components/reservations/ReservationCard";
+import BasicCard from "@/components/utils/cards/BasicCard";
+import Header from "@/components/utils/header-footer/Header";
 
 export const Reservations = () => {
     return (
@@ -12,13 +12,12 @@ export const Reservations = () => {
                     <p>date darrivée</p>
                 </Header>
             </div>
-            <CreationCard libelle='une réservation' linkPath='/create-bedroom' />
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-10">
                 <BasicCard>
-                    <MiniatureReservation />
+                    <ReservationCard />
                 </BasicCard>
                 <BasicCard>
-                    <MiniatureReservation />
+                    <ReservationCard />
                 </BasicCard>
             </div>
         </main>

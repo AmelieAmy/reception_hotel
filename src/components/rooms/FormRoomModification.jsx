@@ -1,15 +1,12 @@
 'use client'
-import BasicCard from "@/components/cards/BasicCard";
-import Header from "@/components/header/Header";
-import { dataBedroom } from "@/utils/data";
-import { useParams, useRouter } from "next/navigation";
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import BedroomTypeModal from "@/components/bedrooms/BedroomTypeModal";
+import RoomTypeModal from "@/components/rooms/RoomTypeModal";
+import BasicCard from "@/components/utils/cards/BasicCard";
+import Header from "@/components/utils/header-footer/Header";
 import { ChevronLeft } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-const BedroomCreation = () => {
-    const router = useRouter();
+const FormRoomModification = ({room}) => {
     const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
     const [modalOpen, setModalOpen] = useState(false);
     const roomType = watch('roomType');
@@ -23,7 +20,7 @@ const BedroomCreation = () => {
     return (
         <div className="p-10">
             <Header>
-                <h1 className="text-lg">Création d&apos;une chambre</h1>
+                <h1 className="text-lg">Modification de la chambre : <span className="text-2xl">{room.name}</span></h1>
             </Header>
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
@@ -112,11 +109,11 @@ const BedroomCreation = () => {
                                 <p>Retour</p>
                             </button>
                             <button type="submit" className="w-1/3 bg-teal-700 text-white rounded px-4 py-2 hover:bg-teal-600">
-                                Créer
+                                Modifier
                             </button>
                         </div>
 
-                        <BedroomTypeModal
+                        <RoomTypeModal
                             isOpen={modalOpen}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
@@ -132,4 +129,4 @@ const BedroomCreation = () => {
     )
 }
 
-export default BedroomCreation;
+export default FormRoomModification;

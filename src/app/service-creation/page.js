@@ -1,20 +1,18 @@
 'use client'
-import BasicCard from "@/components/cards/BasicCard";
-import Header from "@/components/header/Header";
-import { dataBedroom } from "@/utils/data";
+import BasicCard from "@/components/utils/cards/BasicCard";
+import Header from "@/components/utils/header-footer/Header";
+import { dataService } from "@/utils/data";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import BedroomTypeModal from "@/components/bedrooms/BedroomTypeModal";
 import { ChevronLeft } from 'lucide-react';
+import ServiceTypeModal from "@/components/services/ServiceTypeModal";
 
-const BedroomCreation = () => {
+const RoomCreation = () => {
     const router = useRouter();
     const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
     const [modalOpen, setModalOpen] = useState(false);
-    const roomType = watch('roomType');
-    const description = watch('description');
-    const bedCapacity = watch('bedCapacity');
+    const serviceType = watch('serviceType');
 
     const onSubmit = (data) => {
         console.log('Form data:', data);
@@ -23,7 +21,7 @@ const BedroomCreation = () => {
     return (
         <div className="p-10">
             <Header>
-                <h1 className="text-lg">Création d&apos;une chambre</h1>
+                <h1 className="text-lg">Création : <span className="text-2xl">Service</span></h1>
             </Header>
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
@@ -38,31 +36,29 @@ const BedroomCreation = () => {
                                     />
                                     {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                                 </div>
-
                                 <div className="w-full">
-                                    <label>Numéro de chambre</label>
+                                    <label>Durée (en minutes)</label>
                                     <input
-                                        type="number"
-                                        {...register('number', { required: 'Numéro de chambre requis' })}
+                                        type="duration"
+                                        {...register('duration')}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.number && <p className="text-red-500 text-sm">{errors.number.message}</p>}
+                                    {errors.duration && <p className="text-red-500 text-sm">{errors.duration.message}</p>}
                                 </div>
-
                                 <div className="w-full">
-                                    <label>Prix</label>
+                                    <label>Heure d&apos;ouverture</label>
                                     <input
-                                        type="price"
-                                        {...register('price', { required: 'Prix de la chambre requis' })}
+                                        type="openingHour"
+                                        {...register('openingHour')}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
+                                    {errors.openingHour && <p className="text-red-500 text-sm">{errors.openingHour.message}</p>}
                                 </div>
                             </div>
 
                             <div className="basis-1/2 flex flex-col justify-between items-start space-y-4">
                                 <div className="w-full flex flex-col justify-between items-start space-y-1">
-                                    <label>Définir un type de chambre</label>
+                                    <label>Définir un type de service</label>
                                     <button
                                         type="button"
                                         onClick={() => setModalOpen(true)}
@@ -73,7 +69,7 @@ const BedroomCreation = () => {
                                 </div>
 
                                 <div className="w-full">
-                                    <label>Type de chambre</label>
+                                    <label>Type de service</label>
                                     <div className="flex gap-2">
                                         <input
                                             readOnly
@@ -85,13 +81,13 @@ const BedroomCreation = () => {
                                 </div>
 
                                 <div className="w-full">
-                                    <label>Capacité lit</label>
+                                    <label>Prix (€)</label>
                                     <input
-                                        type="bedCapacity"
-                                        readOnly
-                                        {...register('bedCapacity')}
-                                        className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
+                                        type="price"
+                                        {...register('price', { required: 'Prix de la chambre requis' })}
+                                        className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
+                                    {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
                                 </div>
                             </div>
                         </div>
@@ -100,9 +96,10 @@ const BedroomCreation = () => {
                             <label>Description</label>
                             <textarea
                                 {...register('description')}
-                                className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
-                                readOnly
+                                className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                             ></textarea>
+                                    {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                               
                         </div>
 
                         <div className="w-full flex flex-row justify-start items-center">
@@ -116,13 +113,11 @@ const BedroomCreation = () => {
                             </button>
                         </div>
 
-                        <BedroomTypeModal
+                        <ServiceTypeModal
                             isOpen={modalOpen}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
                                 setValue('type', type.libelle);
-                                setValue('description', type.description);
-                                setValue('bedCapacity', type.bedCapacity);
                             }}
                         />
                     </form>
@@ -132,4 +127,4 @@ const BedroomCreation = () => {
     )
 }
 
-export default BedroomCreation;
+export default RoomCreation;

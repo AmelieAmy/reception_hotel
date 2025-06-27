@@ -1,9 +1,12 @@
-import React from 'react';
-import BasicButton from '../buttons/BasicButton';
-import DangerButton from '../buttons/DangerButton';
+'use client'
+import React, { useState } from 'react';
+import BasicButton from '../utils/buttons/BasicButton';
+import DangerButton from '../utils/buttons/DangerButton';
 import { Cake } from 'lucide-react'
+import ConfirmationModal from '../utils/modal/ConfirmationModal';
 
-const MiniatureReservation = () => {
+const ReservationCard = () => {
+    const [modalOpen, setModalOpen] = useState(false);
   return (
     <div className='flex flex-row justify-between items-center text-dark-900'>
         <div className="basis-1/4 2xl:basis-2/7 w-full h-full overflow-hidden flex flex-col items-center justify-center rounded-xl drop-shadow-md space-y-2">
@@ -53,12 +56,18 @@ const MiniatureReservation = () => {
         <div className='mb-4'>
             <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>150</span>€</p>
             <p className='mx-2 text-sm'>Inclus charges et taxes</p></div>
-            <BasicButton linkPath={`/bedrooms`}>Check in</BasicButton>
-            <BasicButton linkPath={`/bedrooms`}>Modification</BasicButton>
-            <DangerButton>Annulation</DangerButton>
+            <BasicButton linkPath={`/`}>Check in</BasicButton>
+            <BasicButton linkPath={`/`}>Modification</BasicButton>
+            <DangerButton setModalOpen={setModalOpen}>Annulation</DangerButton>
         </div>
+            <ConfirmationModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onConfirmation={() => console.log('confirmer')}
+                libelle='annuler cette réservation'
+            />
     </div>
   )
 }
 
-export default MiniatureReservation;
+export default ReservationCard;

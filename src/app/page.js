@@ -1,5 +1,6 @@
-import NavigationCard from '@/components/accueil/NavigationCard';
-import Header from '@/components/header/Header';
+import NavigationCard from '@/components/home/NavigationCard';
+import Header from '@/components/utils/header-footer/Header';
+import { RESERVATIONS, ROOMS, SERVICES } from '@/utils/constants/urls/urls_front';
 
 const Home = () => {
     return (
@@ -11,19 +12,19 @@ const Home = () => {
             </div>
             <div className="w-8/10 m-auto pb-10 flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 space-x-0 lg:space-x-10 xl:space-x-16">
                 <NavigationCard
-                    linkPath='/reservations'
+                    linkPath={RESERVATIONS}
                     imagePath='/images/calendrier.jpg'
                     altImage="calendrier avec un crayon"
                     sectionTitle='Réservations'
                 />
                 <NavigationCard
-                    linkPath='/bedrooms'
+                    linkPath={ROOMS}
                     imagePath='/images/bedroom.jpg'
                     altImage="illustration style arrondi d'une chambre lit double"
                     sectionTitle='Chambres'
                 />
                 <NavigationCard
-                    linkPath='/services'
+                    linkPath={SERVICES}
                     imagePath='/images/services.jpg'
                     altImage="homme entouré de bulle avec des images de service"
                     sectionTitle='Services'

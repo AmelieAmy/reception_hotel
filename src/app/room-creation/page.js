@@ -1,17 +1,15 @@
 'use client'
-import BasicCard from "@/components/cards/BasicCard";
-import Header from "@/components/header/Header";
-import { dataBedroom } from "@/utils/data";
+import BasicCard from "@/components/utils/cards/BasicCard";
+import Header from "@/components/utils/header-footer/Header";
+import { dataRoom } from "@/utils/data";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import BedroomTypeModal from "@/components/bedrooms/BedroomTypeModal";
+import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import { ChevronLeft } from 'lucide-react';
 
-const BedroomModification = () => {
-    const { id } = useParams();
+const RoomCreation = () => {
     const router = useRouter();
-    const bedroom = dataBedroom.find(chmb => chmb.id == id);
     const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
     const [modalOpen, setModalOpen] = useState(false);
     const roomType = watch('roomType');
@@ -25,7 +23,7 @@ const BedroomModification = () => {
     return (
         <div className="p-10">
             <Header>
-                <h1 className="text-lg">Modification de la chambre : <span className="text-2xl">{bedroom.name}</span></h1>
+                <h1 className="text-lg">Création : <span className="text-2xl">Chambre</span></h1>
             </Header>
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
@@ -52,9 +50,9 @@ const BedroomModification = () => {
                                 </div>
 
                                 <div className="w-full">
-                                    <label>Prix</label>
+                                    <label>Prix (€)</label>
                                     <input
-                                        type="price"
+                                        type="number"
                                         {...register('price', { required: 'Prix de la chambre requis' })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
@@ -89,7 +87,7 @@ const BedroomModification = () => {
                                 <div className="w-full">
                                     <label>Capacité lit</label>
                                     <input
-                                        type="bedCapacity"
+                                        type="number"
                                         readOnly
                                         {...register('bedCapacity')}
                                         className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
@@ -101,10 +99,12 @@ const BedroomModification = () => {
                         <div className="w-full">
                             <label>Description</label>
                             <textarea
+                                readOnly
                                 {...register('description')}
                                 className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
-                                readOnly
                             ></textarea>
+                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+
                         </div>
 
                         <div className="w-full flex flex-row justify-start items-center">
@@ -114,11 +114,11 @@ const BedroomModification = () => {
                                 <p>Retour</p>
                             </button>
                             <button type="submit" className="w-1/3 bg-teal-700 text-white rounded px-4 py-2 hover:bg-teal-600">
-                                Modifier
+                                Créer
                             </button>
                         </div>
 
-                        <BedroomTypeModal
+                        <RoomTypeModal
                             isOpen={modalOpen}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
@@ -134,4 +134,4 @@ const BedroomModification = () => {
     )
 }
 
-export default BedroomModification;
+export default RoomCreation;

@@ -1,8 +1,12 @@
-import BasicButton from '../buttons/BasicButton';
-import DangerButton from '../buttons/DangerButton';
+'use client'
+import BasicButton from '../utils/buttons/BasicButton';
+import DangerButton from '../utils/buttons/DangerButton';
 import Image from 'next/image';
+import ConfirmationModal from '../utils/modal/ConfirmationModal';
+import { useState } from 'react';
+import { ROOM_MODIFICATION } from '@/utils/constants/urls/urls_front';
 
-const BedroomCard = ({
+const RoomCard = ({
     id,
     name,
     type,
@@ -11,6 +15,7 @@ const BedroomCard = ({
     price,
     description
 }) => {
+    const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className='flex flex-col sm:flex-row justify-between items-center text-dark-900'>
             <div className="basis-1/4 2xl:basis-2/7 w-56 h-48 overflow-hidden relative flex flex-col items-center justify-center rounded-xl drop-shadow-md/25 space-y-2">
@@ -47,11 +52,17 @@ const BedroomCard = ({
                     <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{price}</span>€</p>
                     <p className='mx-2 text-sm'>Inclus charges et taxes</p>
                 </div>
-                <BasicButton linkPath={`/bedrooms/${id}`}>Modification</BasicButton>
-                <DangerButton>Suppression</DangerButton>
+                <BasicButton linkPath={ROOM_MODIFICATION(id)}>Modification</BasicButton>
+                <DangerButton setModalOpen={setModalOpen}>Suppression</DangerButton>
             </div>
+            <ConfirmationModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onConfirmation={() => console.log('confirmer')}
+                libelle='supprimer cette chambre'
+            />
         </div>
     )
 }
 
-export default BedroomCard;
+export default RoomCard;
