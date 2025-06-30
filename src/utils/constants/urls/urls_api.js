@@ -1,4 +1,4 @@
-const API_BASE = 'http://178.255.128.61:10013/CONDORMAN';
+const API_BASE = process.env.AS400_API_URL
 
 // RESERVATIONS
 export const GET_PAST_RESERVATIONS = API_BASE + '/past-reservations';
