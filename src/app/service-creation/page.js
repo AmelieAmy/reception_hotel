@@ -1,8 +1,8 @@
 'use client'
 import ServiceTypeModal from "@/components/services/ServiceTypeModal";
+import { BackButton } from "@/components/utils/buttons/AllButtons";
 import BasicCard from "@/components/utils/cards/BasicCard";
 import Header from "@/components/utils/header-footer/Header";
-import { ChevronLeft } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,13 +22,7 @@ const RoomCreation = () => {
             <Header>
                 <h1 className="text-lg">Création : <span className="text-2xl">Service</span></h1>
             </Header>
-            <button
-                onClick={() => router.back()}
-                type="button"
-                className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline my-6 ml-6">
-                <ChevronLeft className="w-5 h-5" />
-                <p>Retour</p>
-            </button>
+            <BackButton onClick={() => router.back()} />
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col justify-between items-start space-y-4 text-dark-900 py-2">

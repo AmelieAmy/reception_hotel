@@ -1,5 +1,5 @@
 import ServiceCard from "@/components/services/ServiceCard";
-import CreationCard from "@/components/utils/buttons/CreationButton";
+import { CreationButton } from "@/components/utils/buttons/AllButtons";
 import GroupedAccordion from "@/components/utils/GroupedAccordion";
 import Header from "@/components/utils/header-footer/Header";
 import { GET_SERVICES } from "@/utils/constants/urls/urls_api";
@@ -23,7 +23,7 @@ export const Services = () => {
                     </div>
                 </Header>
             </div>
-            <CreationCard libelle='un service' linkPath={SERVICE_CREATION} />
+            <CreationButton libelle='un service' linkPath={SERVICE_CREATION} />
             <GroupedAccordion
                 fetchData={fetchServices}
                 groupBy={service => service.type}

@@ -1,6 +1,5 @@
 'use client'
-import BasicButton from '../utils/buttons/BasicButton';
-import DangerButton from '../utils/buttons/DangerButton';
+import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
 import Image from 'next/image';
 import ConfirmationModal from '../utils/modal/ConfirmationModal';
 import { useState } from 'react';

@@ -1,6 +1,9 @@
 const API_BASE = 'http://178.255.128.61:10013/CONDORMAN';
 
 // RESERVATIONS
+export const GET_PAST_RESERVATIONS = API_BASE + '/past-reservations';
+export const GET_RECENT_RESERVATIONS = API_BASE + '/recent-reservations';
+export const GET_RESERVATION_BY_ID = (id) => API_BASE + `/reservations/${id}`;
 
 // CHAMBRES
 export const GET_ROOMS = API_BASE + '/rooms';

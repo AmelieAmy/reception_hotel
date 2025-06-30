@@ -1,10 +1,10 @@
 'use client'
 import BasicCard from "@/components/utils/cards/BasicCard";
 import Header from "@/components/utils/header-footer/Header";
-import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BackButton, SelectionButtonToModal } from "../utils/buttons/AllButtons";
 import ServiceTypeModal from "./ServiceTypeModal";
 
 const FormServiceModification = ({ service, serviceTypes }) => {
@@ -35,13 +35,7 @@ const FormServiceModification = ({ service, serviceTypes }) => {
             <Header>
                 <h1 className="text-lg">Modification du service : <span className="text-2xl">{service.name}</span></h1>
             </Header>
-            <button
-                onClick={() => router.back()} 
-                type="button" 
-                className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline my-6 ml-6">
-                <ChevronLeft className="w-5 h-5" />
-                <p>Retour</p>
-            </button>
+            <BackButton onClick={() => router.back()} />
             <div className="w-1/2 mx-auto">
                 <BasicCard>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col justify-between items-start space-y-4 text-dark-900 py-2">
@@ -78,13 +72,10 @@ const FormServiceModification = ({ service, serviceTypes }) => {
                             <div className="basis-1/2 flex flex-col justify-between items-start space-y-4">
                                 <div className="w-full flex flex-col justify-between items-start space-y-1">
                                     <label>Définir un type de service</label>
-                                    <button
-                                        type="button"
+                                    <SelectionButtonToModal
                                         onClick={() => setModalOpen(true)}
-                                        className="bg-gold-600 hover:bg-yellow-600 text-white w-1/2 py-2 rounded"
-                                    >
-                                        Choisir
-                                    </button>
+                                        libelle="Choisir"
+                                    />
                                 </div>
                                 <div className="w-full">
                                     <label>Type de service</label>

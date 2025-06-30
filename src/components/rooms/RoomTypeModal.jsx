@@ -1,4 +1,4 @@
-import { ChevronLeft, SquareX } from 'lucide-react';
+import { SquareX } from 'lucide-react';
 
 const RoomTypeModal = ({ isOpen, onClose, onSelect, roomTypes }) => {
     if (!isOpen) return null;

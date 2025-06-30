@@ -1,73 +1,90 @@
 'use client'
-import React, { useState } from 'react';
-import BasicButton from '../utils/buttons/BasicButton';
-import DangerButton from '../utils/buttons/DangerButton';
-import { Cake } from 'lucide-react'
+import { formatDateToEuropean } from '@/utils/dateFormat';
+import { Cake } from 'lucide-react';
+import { useState } from 'react';
+import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
 import ConfirmationModal from '../utils/modal/ConfirmationModal';
+import Image from 'next/image';
+import { RESERVATION_DETAILS, RESERVATION_MODIFICATION } from '@/utils/constants/urls/urls_front';
 
-const ReservationCard = () => {
+const ReservationCard = ({ resa }) => {
     const [modalOpen, setModalOpen] = useState(false);
-  return (
-    <div className='flex flex-row justify-between items-center text-dark-900'>
-        <div className="basis-1/4 2xl:basis-2/7 w-full h-full overflow-hidden flex flex-col items-center justify-center rounded-xl drop-shadow-md space-y-2">
-            <img
-                src="/images/chambre_double.jpg"
-                alt="chambre avec lit double bien décoré"
-                className="w-full h-auto object-cover rounded-xl drop-shadow-lg/25"
-            />
-            <p className='text-lg font-semibold'>Rose</p>
-        </div>
-        <div className='px-6 py-2 flex-1'>
-            <h2 className='text-2xl font-semibold'>PINPIN Lapin</h2>
-            <div className='flex flex-row justify-start mb-4'>
-                <Cake className="w-5 h-5"/>
-                <p className='pl-2'>12/04/2024</p>
-            </div>
-            <div className='flex flex-row justify-start items-center space-x-2 mb-6'>            
-                <img
-                    src="/images/dej.jpg"
-                    alt="chambre par defaut"
-                    className="w-10 h-10 rounded-lg drop-shadow-lg/25"
-                />            
-                <img
-                    src="/images/dej.jpg"
-                    alt="chambre par defaut"
-                    className="w-10 h-10 rounded-lg drop-shadow-lg/25"
-                />
-                <img
-                    src="/images/dej.jpg"
-                    alt="chambre par defaut"
-                    className="w-10 h-10 rounded-lg drop-shadow-lg/25"
-                />
-                <p className='self-end'>... Voir tout</p>
-            </div>
-            <div className='flex flex-row justify-around border border-gold-600 rounded-xl mt-2 p-1'>
-                <div className='flex flex-col justify-between items-center'>
-                    <p className='text-yellow-600'>Arrivée</p>
-                    <p className='text-xl font-semibold'>12/04/2024</p>
+    const resaServices = JSON.parse(resa.services);
+    const birthDate = new Date(resa.birthDate);
+    const currentMonth = new Date().getMonth();
+    const birthDateMonth = birthDate.getMonth();
+
+    const haveBirthdaySoon = currentMonth === birthDateMonth;
+
+    return (
+        <div className='flex-1 flex flex-row justify-between text-dark-900 space-x-4'>
+            <div className="basis-5/7 flex-1 flex flex-col justify-between space-y-4">
+                <div className="flex flex-row justify-between">
+                    <div className="basis-3/5 lg:basis-2/5 xl:basis-3/5 w-full h-full overflow-hidden flex flex-col items-center justify-center rounded-xl drop-shadow-md space-y-1">
+                        <Image
+                            src="/images/chambre_double.jpg"
+                            alt="chambre avec lit double bien décoré"
+                            width={472}
+                            height={132}
+                        />
+                        <div className='flex flex-row justify-around items-center w-full border-x border-b border-gold-600/50 pb-1'>
+                            <p className='text-xs'>nº <span className='text-base'>{resa.roomNumber}</span></p>
+                            <p className=''>{resa.roomName}</p>
+                        </div>
+                    </div>
+                    <div className='px-6 pt-1 basis-3/5 flex flex-col items-start justify-between'>
+                        <div>
+                            <h2 className='text-xl font-semibold'>{resa.lastname} {resa.firstname}</h2>
+                            <div className='flex flex-row justify-start'>
+                                <Cake className={`w-5 h-5 ${haveBirthdaySoon && 'text-cyan-600'}`} />
+                                <p className={`pl-2 ${haveBirthdaySoon && 'text-cyan-600'}`}>{formatDateToEuropean(resa.birthDate)}</p>
+                            </div>
+                        </div>
+                        <p className='text-xs my-2'>Pour :
+                            <span className='text-base'> {resa.expectedNumberOfPeople} {resa.expectedNumberOfPeople > 1 ? ' personnes' : ' personne'}</span>
+                        </p>
+                        <div className='flex flex-row justify-start items-center space-x-2'>
+                            {resaServices.map(service =>
+                                <img
+                                    key={service.idService}
+                                    src="/images/dej.jpg"
+                                    alt="chambre par defaut"
+                                    className="w-8 h-8 rounded-lg border border-dark-900/25"
+                                />
+                            )}
+                            {resaServices.length > 4 && <p>...</p>}
+                        </div>
+                    </div>
                 </div>
-                <div className='flex flex-col justify-between items-center'>
-                    <p className='text-yellow-600'>Départ</p>
-                    <p className='text-xl font-semibold'>12/04/2024</p>
+                <div className='flex  flex-row justify-around border border-gold-600 rounded-lg p-1'>
+                    <div className='flex flex-col justify-between items-center'>
+                        <p className='text-yellow-600'>Arrivée</p>
+                        <p className='text-lg font-semibold'>{formatDateToEuropean(resa.arrival)}</p>
+                    </div>
+                    <div className='flex flex-col justify-between items-center'>
+                        <p className='text-yellow-600'>Départ</p>
+                        <p className='text-xl font-semibold'>{formatDateToEuropean(resa.departure)}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className='basis-1/4 space-y-3'>
-        <div className='mb-4'>
-            <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>150</span>€</p>
-            <p className='mx-2 text-sm'>Inclus charges et taxes</p></div>
-            <BasicButton linkPath={`/`}>Check in</BasicButton>
-            <BasicButton linkPath={`/`}>Modification</BasicButton>
-            <DangerButton setModalOpen={setModalOpen}>Annulation</DangerButton>
-        </div>
+            <div className='basis-2/7 space-y-3'>
+                <div className='flex flex-row justify-start items-baseline'>
+                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{resa.dueAmount}</span>€</p>
+                    <p className='mx-2 text-xs'>Charges et taxes</p>
+                </div>
+                <BasicButton checkIn linkPath={`/`}>Check in</BasicButton>
+                <BasicButton linkPath={RESERVATION_DETAILS(resa.id)}>Détails</BasicButton>
+                <BasicButton linkPath={RESERVATION_MODIFICATION(resa.id)}>Modification</BasicButton>
+                <DangerButton setModalOpen={setModalOpen}>Annulation</DangerButton>
+            </div>
             <ConfirmationModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
                 onConfirmation={() => console.log('confirmer')}
                 libelle='annuler cette réservation'
             />
-    </div>
-  )
+        </div>
+    )
 }
 
 export default ReservationCard;

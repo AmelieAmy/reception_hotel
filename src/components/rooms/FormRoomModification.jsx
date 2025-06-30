@@ -2,10 +2,10 @@
 import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import BasicCard from "@/components/utils/cards/BasicCard";
 import Header from "@/components/utils/header-footer/Header";
-import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BackButton, SelectionButtonToModal, ValidationButton } from "../utils/buttons/AllButtons";
 
 const FormRoomModification = ({ room, roomTypes }) => {
     const router = useRouter();
@@ -35,13 +35,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
             <Header>
                 <h1 className="text-lg">Modification de la chambre : <span className="text-2xl">{room.name}</span></h1>
             </Header>
-            <button
-                onClick={() => router.back()} 
-                type="button" 
-                className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline my-6 ml-6">
-                <ChevronLeft className="w-5 h-5" />
-                <p>Retour</p>
-            </button>
+            <BackButton onClick={() => router.back()} />
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col justify-between items-start space-y-4 text-dark-900 py-2">
@@ -69,7 +63,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                 <div className="w-full">
                                     <label>Prix</label>
                                     <input
-                                        type="price"
+                                        type="number"
                                         {...register('price', { required: 'Prix de la chambre requis' })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
@@ -80,13 +74,10 @@ const FormRoomModification = ({ room, roomTypes }) => {
                             <div className="basis-1/2 flex flex-col justify-between items-start space-y-4">
                                 <div className="w-full flex flex-col justify-between items-start space-y-1">
                                     <label>Définir un type de chambre</label>
-                                    <button
-                                        type="button"
+                                    <SelectionButtonToModal
                                         onClick={() => setModalOpen(true)}
-                                        className="bg-gold-600 hover:bg-yellow-600 text-white w-1/2 py-2 rounded"
-                                    >
-                                        Choisir
-                                    </button>
+                                        libelle="Choisir"
+                                    />
                                 </div>
 
                                 <div className="w-full">
@@ -104,7 +95,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                 <div className="w-full">
                                     <label>Capacité lit</label>
                                     <input
-                                        type="bedCapacity"
+                                        type="number"
                                         readOnly
                                         {...register('bedCapacity')}
                                         className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
@@ -122,11 +113,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
                             ></textarea>
                         </div>
 
-                        <div className="w-full flex flex-row justify-start items-center">
-                            <button type="submit" className="w-1/3 bg-teal-700 text-white rounded px-4 py-2 hover:bg-teal-600">
-                                Modifier
-                            </button>
-                        </div>
+                        <ValidationButton libelle="Modifier" />
 
                         <RoomTypeModal
                             isOpen={modalOpen}

@@ -1,5 +1,5 @@
 import RoomCard from '@/components/rooms/RoomCard';
-import CreationCard from "@/components/utils/buttons/CreationButton";
+import { CreationButton } from "@/components/utils/buttons/AllButtons";
 import GroupedAccordion from "@/components/utils/GroupedAccordion";
 import Header from "@/components/utils/header-footer/Header";
 import { GET_ROOMS } from "@/utils/constants/urls/urls_api";
@@ -24,8 +24,8 @@ export const rooms = async () => {
                 </Header>
             </div>
             <div className="w-full flex flex-row justify-start items-center space-x-8">
-                <CreationCard libelle='une chambre' linkPath={ROOM_CREATION} />
-                <CreationCard libelle='un type de chambre' linkPath={ROOM_TYPE_CREATION} />
+                <CreationButton libelle='une chambre' linkPath={ROOM_CREATION} />
+                <CreationButton libelle='un type de chambre' linkPath={ROOM_TYPE_CREATION} />
             </div>
             <GroupedAccordion
                 fetchData={fetchRooms}
