@@ -1,6 +1,6 @@
 'use client'
 import RoomTypeModal from "@/components/rooms/RoomTypeModal";
-import { BackButton } from '../utils/buttons/AllButtons';
+import { BackButton } from "@/components/utils/buttons/AllButtons";
 import BasicCard from "@/components/utils/cards/BasicCard";
 import Header from "@/components/utils/header-footer/Header";
 import { useRouter } from "next/navigation";
