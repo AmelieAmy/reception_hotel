@@ -18,3 +18,4 @@ export const ROOM_SELECTION = '/room-selection';
 export const SERVICES = '/services';
 export const SERVICE_CREATION = '/service-creation';
 export const SERVICE_MODIFICATION = (id) => `/services/${id}/edit`;
+export const SERVICE_SELECTION = '/service-selection';

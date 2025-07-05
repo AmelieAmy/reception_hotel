@@ -1,18 +1,31 @@
 import ReservationList from "@/components/reservations/ReservationList";
+import { CreationButton } from "@/components/utils/buttons/AllButtons";
 import Header from "@/components/utils/header-footer/Header";
 import { GET_PAST_RESERVATIONS, GET_RECENT_RESERVATIONS } from "@/utils/constants/urls/urls_api";
+import { RESERVATION_CREATION } from "@/utils/constants/urls/urls_front";
 
 async function fetchPastReservations() {
     const res = await fetch(GET_PAST_RESERVATIONS, { cache: 'no-store' })
     if (!res.ok) throw new Error('Échec chargement des données pour les anciennes réservations')
     const data = await res.json()
-    return data
+
+    return data.map(reservation => ({
+        ...reservation,
+        services: JSON.parse(reservation.services || '[]'),
+        payment: JSON.parse(reservation.payment || '[]'),
+    }));
 }
+
 async function fetchRecentReservations() {
     const res = await fetch(GET_RECENT_RESERVATIONS, { cache: 'no-store' })
     if (!res.ok) throw new Error('Échec chargement des données pour les récentes réservations')
     const data = await res.json()
-    return data
+
+    return data.map(reservation => ({
+        ...reservation,
+        services: JSON.parse(reservation.services || '[]'),
+        payment: JSON.parse(reservation.payment || '[]'),
+    }));
 }
 
 const Reservations = async () => {
@@ -28,6 +41,9 @@ const Reservations = async () => {
                         <p>Nom</p> <p>date darrivée</p>
                     </div>
                 </Header>
+            </div>
+            <div className="w-1/4">
+                <CreationButton libelle='une réservation' linkPath={RESERVATION_CREATION} />
             </div>
             <ReservationList
                 pastReservations={pastReservationsData}

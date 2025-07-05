@@ -6,10 +6,10 @@ import { GET_SERVICES } from "@/utils/constants/urls/urls_api";
 import { SERVICE_CREATION } from "@/utils/constants/urls/urls_front";
 
 async function fetchServices() {
-    const res = await fetch(GET_SERVICES, { cache: 'no-store' })
-    if (!res.ok) throw new Error('Échec du chargement')
-    const data = await res.json()
-    return data
+    const servicesResponse = await fetch(GET_SERVICES, { cache: 'no-store' })
+    if (!servicesResponse.ok) throw new Error('Échec du chargement')
+    const services = await servicesResponse.json()
+    return services
 }
 
 export const Services = () => {
@@ -23,7 +23,9 @@ export const Services = () => {
                     </div>
                 </Header>
             </div>
-            <CreationButton libelle='un service' linkPath={SERVICE_CREATION} />
+            <div className="w-1/4">
+                <CreationButton libelle='un service' linkPath={SERVICE_CREATION} />
+            </div>
             <GroupedAccordion
                 fetchData={fetchServices}
                 groupBy={service => service.type}

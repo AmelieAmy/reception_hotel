@@ -1,22 +1,23 @@
 'use client'
 import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import BasicCard from "@/components/utils/cards/BasicCard";
-import Header from "@/components/utils/header-footer/Header";
+import { SquarePen } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BackButton, SelectionButtonToModal, ValidationButton } from "../utils/buttons/AllButtons";
 
-const FormRoomModification = ({ room, roomTypes }) => {
+const FormRoomModificationOrCreation = ({ room, roomTypes, creation }) => {
     const router = useRouter();
     const [modalOpen, setModalOpen] = useState(false);
+    
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors }
     } = useForm({
-        defaultValues: {
+        defaultValues: !creation && {
             name: room.name,
             type: room.type,
             bedCapacity: room.bedCapacity,
@@ -31,10 +32,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
     };
 
     return (
-        <div className="p-10">
-            <Header>
-                <h1 className="text-lg">Modification de la chambre : <span className="text-2xl">{room.name}</span></h1>
-            </Header>
+        <div className="m-0">
             <BackButton onClick={() => router.back()} />
             <div className="w-1/2 mx-auto mt-10">
                 <BasicCard>
@@ -44,30 +42,60 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                 <div className="w-full">
                                     <label>Nom</label>
                                     <input
+                                        maxLength={15}
                                         {...register('name', { required: 'Nom requis' })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+                                    {errors.name && <p className="text-red-700 text-sm">{errors.name.message}</p>}
                                 </div>
 
                                 <div className="w-full">
                                     <label>Numéro de chambre</label>
                                     <input
-                                        type="number"
-                                        {...register('number', { required: 'Numéro de chambre requis' })}
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="\d*"
+                                        maxLength={3}
+                                        {...register("number", {
+                                            required: 'Numéro de chambre requis',
+                                            pattern: {
+                                                value: /^\d+$/,
+                                                message: "Seuls les chiffres sont autorisés"
+                                            },
+                                            maxLength: {
+                                                value: 3,
+                                                message: "Maximum 3 chiffres",
+                                            }
+                                        })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.number && <p className="text-red-500 text-sm">{errors.number.message}</p>}
+                                    {errors.number && <p className="text-red-700 text-sm">{errors.number.message}</p>}
                                 </div>
 
                                 <div className="w-full">
                                     <label>Prix</label>
-                                    <input
-                                        type="number"
-                                        {...register('price', { required: 'Prix de la chambre requis' })}
-                                        className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
-                                    />
-                                    {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
+                                    <div className="w-full px-3 py-2 mt-1 border-t-2 border-stone-100 bg-stone-100 rounded flex flex-row justify-between items-baseline">
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            pattern="\d*"
+                                            maxLength={8}
+                                            {...register("price", {
+                                                required: 'Prix de la chambre requis',
+                                                pattern: {
+                                                    value: /^\d+$/,
+                                                    message: "Seuls les chiffres sont autorisés"
+                                                },
+                                                maxLength: {
+                                                    value: 8,
+                                                    message: "Maximum 8 chiffres",
+                                                }
+                                            })}
+                                            className="w-full"
+                                        />
+                                        <p>€</p>
+                                    </div>
+                                    {errors.paidAmount && <p className="text-red-700 text-sm">{errors.paidAmount.message}</p>}
                                 </div>
                             </div>
 
@@ -77,6 +105,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                     <SelectionButtonToModal
                                         onClick={() => setModalOpen(true)}
                                         libelle="Choisir"
+                                        icon={<SquarePen className="w-6 h-6" />}
                                     />
                                 </div>
 
@@ -86,8 +115,7 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                         <input
                                             readOnly
                                             {...register('type')}
-                                            placeholder="Sélectionnez un type"
-                                            className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
+                                            className="focus:outline-none focus:ring-0 w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
                                         />
                                     </div>
                                 </div>
@@ -95,10 +123,9 @@ const FormRoomModification = ({ room, roomTypes }) => {
                                 <div className="w-full">
                                     <label>Capacité lit</label>
                                     <input
-                                        type="number"
                                         readOnly
                                         {...register('bedCapacity')}
-                                        className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
+                                        className="focus:outline-none focus:ring-0 w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
                                     />
                                 </div>
                             </div>
@@ -107,9 +134,9 @@ const FormRoomModification = ({ room, roomTypes }) => {
                         <div className="w-full">
                             <label>Description</label>
                             <textarea
-                                {...register('description')}
-                                className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
                                 readOnly
+                                {...register('description')}
+                                className="focus:outline-none focus:ring-0 w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
                             ></textarea>
                         </div>
 
@@ -132,4 +159,4 @@ const FormRoomModification = ({ room, roomTypes }) => {
     )
 }
 
-export default FormRoomModification;
+export default FormRoomModificationOrCreation;

@@ -5,14 +5,14 @@ import BasicCard from '../utils/cards/BasicCard';
 import { Eye } from 'lucide-react';
 
 const ReservationList = ({ pastReservations, recentReservations }) => {
-    const [showPast, setShowPast] = useState(true)
+    const [showPast, setShowPast] = useState(false)
     const reservations = showPast ? pastReservations : recentReservations
 
     return (
         <div className='flex flex-col justify-between items-end space-y-6'>
             <button
                 onClick={() => setShowPast(prev => !prev)}
-                className="text-center rounded-lg text-white text-xl capitalize bg-gold-600 py-2 px-6"
+                className="text-center rounded-lg text-white text-xl capitalize bg-gold-800 hover:bg-gold-600 py-2 px-6"
             >
                 {showPast ?
                     <div className='flex flex-row justify-between items-center space-x-4'>
@@ -21,7 +21,7 @@ const ReservationList = ({ pastReservations, recentReservations }) => {
                     </div> :
                     <div className='flex flex-row justify-between items-center space-x-4'>
                         <Eye className="w-6 h-6" />
-                        <p>Anciennes réservations</p>
+                        <p>Historique des réservations</p>
                     </div>
                 }
             </button>

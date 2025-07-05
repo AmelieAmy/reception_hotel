@@ -1,13 +1,13 @@
 'use client'
 import BasicCard from "@/components/utils/cards/BasicCard";
-import Header from "@/components/utils/header-footer/Header";
+import { SquarePen } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BackButton, SelectionButtonToModal } from "../utils/buttons/AllButtons";
+import { BackButton, SelectionButtonToModal, ValidationButton } from "../utils/buttons/AllButtons";
 import ServiceTypeModal from "./ServiceTypeModal";
 
-const FormServiceModification = ({ service, serviceTypes }) => {
+const FormServiceModificationOrCreation = ({ service, serviceTypes, creation }) => {
     const router = useRouter();
     const [modalOpen, setModalOpen] = useState(false);
     const {
@@ -16,7 +16,7 @@ const FormServiceModification = ({ service, serviceTypes }) => {
         setValue,
         formState: { errors }
     } = useForm({
-        defaultValues: {
+        defaultValues: !creation && {
             name: service.name,
             type: service.type,
             duration: service.duration,
@@ -31,10 +31,7 @@ const FormServiceModification = ({ service, serviceTypes }) => {
     };
 
     return (
-        <div className="p-10">
-            <Header>
-                <h1 className="text-lg">Modification du service : <span className="text-2xl">{service.name}</span></h1>
-            </Header>
+        <div className="m-0">
             <BackButton onClick={() => router.back()} />
             <div className="w-1/2 mx-auto">
                 <BasicCard>
@@ -44,28 +41,41 @@ const FormServiceModification = ({ service, serviceTypes }) => {
                                 <div className="w-full">
                                     <label>Nom</label>
                                     <input
+                                        maxLength={30}
                                         {...register('name', { required: 'Nom requis' })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+                                    {errors.name && <p className="text-red-700 text-sm">{errors.name.message}</p>}
                                 </div>
                                 <div className="w-full">
-                                    <label>Durée</label>
+                                    <label>Durée (en minutes)</label>
                                     <input
-                                        type="duration"
-                                        {...register('duration')}
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="\d*"
+                                        maxLength={3}
+                                        {...register("duration", {
+                                            pattern: {
+                                                value: /^\d+$/,
+                                                message: "Seuls les chiffres sont autorisés"
+                                            },
+                                            maxLength: {
+                                                value: 3,
+                                                message: "Maximum 3 chiffres",
+                                            }
+                                        })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.duration && <p className="text-red-500 text-sm">{errors.duration.message}</p>}
+                                    {errors.duration && <p className="text-red-700 text-sm">{errors.duration.message}</p>}
                                 </div>
                                 <div className="w-full">
                                     <label>Heure d&apos;ouverture</label>
                                     <input
-                                        type="openingHour"
+                                        maxLength={60}
                                         {...register('openingHour')}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.openingHour && <p className="text-red-500 text-sm">{errors.openingHour.message}</p>}
+                                    {errors.openingHour && <p className="text-red-700 text-sm">{errors.openingHour.message}</p>}
                                 </div>
                             </div>
 
@@ -75,6 +85,7 @@ const FormServiceModification = ({ service, serviceTypes }) => {
                                     <SelectionButtonToModal
                                         onClick={() => setModalOpen(true)}
                                         libelle="Choisir"
+                                        icon={<SquarePen className="w-6 h-6" />}
                                     />
                                 </div>
                                 <div className="w-full">
@@ -84,18 +95,31 @@ const FormServiceModification = ({ service, serviceTypes }) => {
                                             readOnly
                                             {...register('type')}
                                             placeholder="Sélectionnez un type"
-                                            className="w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
+                                            className="focus:outline-none focus:ring-0 w-full bg-stone-100 border-t-2 border-gold-600 rounded px-3 py-2 mt-1"
                                         />
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <label>Prix</label>
                                     <input
-                                        type="price"
-                                        {...register('price', { required: 'Prix de la chambre requis' })}
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="\d*"
+                                        maxLength={6}
+                                        {...register("price", {
+                                            required: "Prix de la chambre requis",
+                                            pattern: {
+                                                value: /^\d+$/,
+                                                message: "Seuls les chiffres sont autorisés"
+                                            },
+                                            maxLength: {
+                                                value: 6,
+                                                message: "Maximum 6 chiffres",
+                                            }
+                                        })}
                                         className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                                     />
-                                    {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
+                                    {errors.price && <p className="text-red-700 text-sm">{errors.price.message}</p>}
                                 </div>
                             </div>
                         </div>
@@ -103,25 +127,22 @@ const FormServiceModification = ({ service, serviceTypes }) => {
                         <div className="w-full">
                             <label>Description</label>
                             <textarea
+                                maxLength={150}
                                 {...register('description')}
                                 className="w-full bg-stone-100 rounded px-3 py-2 mt-1"
                             ></textarea>
-                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                            {errors.description && <p className="text-red-700 text-sm">{errors.description.message}</p>}
                         </div>
 
-                        <div className="w-full flex flex-row justify-start items-center">
-                            <button type="submit" className="w-1/3 bg-teal-700 text-white rounded px-4 py-2 hover:bg-teal-600">
-                                Modifier
-                            </button>
-                        </div>
+                        <ValidationButton libelle="Modifier" />
 
                         <ServiceTypeModal
                             isOpen={modalOpen}
-                            serviceTypes={serviceTypes}
                             onClose={() => setModalOpen(false)}
                             onSelect={(type) => {
                                 setValue('type', type.typeName);
                             }}
+                            serviceTypes={serviceTypes}
                         />
                     </form>
                 </BasicCard>
@@ -130,4 +151,4 @@ const FormServiceModification = ({ service, serviceTypes }) => {
     )
 }
 
-export default FormServiceModification;
+export default FormServiceModificationOrCreation;

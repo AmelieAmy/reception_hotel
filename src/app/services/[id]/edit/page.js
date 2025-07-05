@@ -1,4 +1,5 @@
-import FormServiceModification from "@/components/services/FormServiceModification";
+import FormServiceModificationOrCreation from "@/components/services/FormServiceModificationOrCreation";
+import Header from "@/components/utils/header-footer/Header";
 import { GET_SERVICE_TYPES, GET_SERVICES_BY_ID } from "@/utils/constants/urls/urls_api";
 import { notFound } from 'next/navigation';
 
@@ -15,7 +16,12 @@ const ServiceModification = async ({ params }) => {
     const serviceTypes = await resultGetServicesTypes.json();
 
     return (
-        <FormServiceModification service={service} serviceTypes={serviceTypes} />
+        <div className="p-10">
+            <Header>
+                <h1 className="text-lg">Modification du service : <span className="text-2xl">{service.name}</span></h1>
+            </Header>
+            <FormServiceModificationOrCreation service={service} serviceTypes={serviceTypes} />
+        </div>
     )
 }
 

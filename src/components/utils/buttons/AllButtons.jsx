@@ -9,13 +9,17 @@ export function ValidationButton({ libelle }) {
     )
 }
 
-export function SelectionButtonToModal({ libelle, onClick }) {
+export function SelectionButtonToModal({ wfull, onClick, disabled, libelle, icon }) {
     return (
         <button
             type="button"
             onClick={onClick}
-            className="text-center bg-gold-600 hover:bg-yellow-600 text-white w-1/2 py-2 rounded">
-            {libelle}
+            disabled={disabled}
+            className={`${wfull ? 'w-full bg-gold-600/80 hover:bg-gold-600' : 'w-2/3 bg-gold-600 hover:bg-yellow-600'} text-center text-white py-2 rounded`}>
+            <div className='flex flex-row justify-center items-center space-x-4'>
+                {icon}
+                <p>{libelle}</p>
+            </div>
         </button>
     )
 }
@@ -24,10 +28,10 @@ export function SelectionButtonToPage({ libelle, linkPath }) {
     return (
         <Link
             href={linkPath}
-            className="w-full text-center bg-gold-600/75 hover:bg-yellow-600 text-white py-2 rounded">
+            className="w-full text-center bg-gold-600/80 hover:bg-gold-600 text-white py-2 rounded">
             <div className='flex flex-row justify-center items-center space-x-4'>
                 <SquarePen className="w-6 h-6" />
-            <p>{libelle}</p>
+                <p>{libelle}</p>
             </div>
         </Link>
     )
@@ -58,18 +62,18 @@ export function BackButton({ onClick }) {
 
 export function DangerButton({ setModalOpen, children }) {
     return (
-        <button 
-        type="button" 
-        onClick={() => setModalOpen(true)} 
-        className='w-full text-center rounded-xl text-red-800 hover:text-white font-medium text-lg capitalize border-2 border-red-700 hover:bg-red-800 py-1'>
+        <button
+            type="button"
+            onClick={() => setModalOpen(true)}
+            className='w-full text-center rounded-xl text-red-800 hover:text-white font-medium text-lg capitalize border-2 border-red-700 hover:bg-red-800 py-1'>
             {children}
         </button>
     )
 }
 
-export function BasicButton({ linkPath, children, checkIn }) {
+export function BasicButton({ linkPath, children }) {
     return (
-        <Link href={linkPath} className={`block text-center rounded-xl text-white text-xl capitalize py-1 ${checkIn ? 'bg-gold-600 hover:bg-gold-500' : 'bg-yellow-700 hover:bg-yellow-600'} `}>
+        <Link href={linkPath} className='block text-center rounded-xl text-white text-xl capitalize py-2 bg-gold-600 hover:bg-gold-500'>
             {children}
         </Link>
     )

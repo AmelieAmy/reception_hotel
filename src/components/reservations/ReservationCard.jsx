@@ -9,11 +9,9 @@ import { RESERVATION_DETAILS, RESERVATION_MODIFICATION } from '@/utils/constants
 
 const ReservationCard = ({ resa }) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const resaServices = JSON.parse(resa.services);
-    const birthDate = new Date(resa.birthDate);
+    const birthDate = new Date(resa.birthday);
     const currentMonth = new Date().getMonth();
     const birthDateMonth = birthDate.getMonth();
-
     const haveBirthdaySoon = currentMonth === birthDateMonth;
 
     return (
@@ -37,26 +35,26 @@ const ReservationCard = ({ resa }) => {
                             <h2 className='text-xl font-semibold'>{resa.lastname} {resa.firstname}</h2>
                             <div className='flex flex-row justify-start'>
                                 <Cake className={`w-5 h-5 ${haveBirthdaySoon && 'text-cyan-600'}`} />
-                                <p className={`pl-2 ${haveBirthdaySoon && 'text-cyan-600'}`}>{formatDateToEuropean(resa.birthDate)}</p>
+                                <p className={`pl-2 ${haveBirthdaySoon && 'text-cyan-600'}`}>{formatDateToEuropean(resa.birthday)}</p>
                             </div>
                         </div>
                         <p className='text-xs my-2'>Pour :
-                            <span className='text-base'> {resa.expectedNumberOfPeople} {resa.expectedNumberOfPeople > 1 ? ' personnes' : ' personne'}</span>
+                            <span className='text-base'> {resa.sleepersAmount} {resa.sleepersAmount > 1 ? ' personnes' : ' personne'}</span>
                         </p>
                         <div className='flex flex-row justify-start items-center space-x-2'>
-                            {resaServices.map(service =>
+                            {resa?.services?.map(service =>
                                 <img
-                                    key={service.idService}
+                                    key={service.id}
                                     src="/images/dej.jpg"
-                                    alt="chambre par defaut"
+                                    alt="croissant, café et jus de fruit"
                                     className="w-8 h-8 rounded-lg border border-dark-900/25"
                                 />
                             )}
-                            {resaServices.length > 4 && <p>...</p>}
+                            {resa?.services?.length > 4 && <p>...</p>}
                         </div>
                     </div>
                 </div>
-                <div className='flex  flex-row justify-around border border-gold-600 rounded-lg p-1'>
+                <div className='w-9/10 flex flex-row justify-around border border-gold-600 rounded-lg p-1'>
                     <div className='flex flex-col justify-between items-center'>
                         <p className='text-yellow-600'>Arrivée</p>
                         <p className='text-lg font-semibold'>{formatDateToEuropean(resa.arrival)}</p>
@@ -70,11 +68,16 @@ const ReservationCard = ({ resa }) => {
             <div className='basis-2/7 space-y-3'>
                 <div className='flex flex-row justify-start items-baseline'>
                     <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{resa.dueAmount}</span>€</p>
-                    <p className='mx-2 text-xs'>Charges et taxes</p>
+                    <p className='mx-2 text-xs'>TTC</p>
                 </div>
-                <BasicButton checkIn linkPath={`/`}>Check in</BasicButton>
+                <BasicButton linkPath={RESERVATION_MODIFICATION(resa.id)}>
+                    <div className='flex flex-col justify-between items-center'>
+                        <p>Check In</p>
+                        <hr className='w-3/4' />
+                        <p>Modification</p>                        
+                    </div>
+                </BasicButton>
                 <BasicButton linkPath={RESERVATION_DETAILS(resa.id)}>Détails</BasicButton>
-                <BasicButton linkPath={RESERVATION_MODIFICATION(resa.id)}>Modification</BasicButton>
                 <DangerButton setModalOpen={setModalOpen}>Annulation</DangerButton>
             </div>
             <ConfirmationModal

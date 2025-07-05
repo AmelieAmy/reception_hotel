@@ -1,3 +1,5 @@
+import BasicCard from "./cards/BasicCard"
+
 const GroupedAccordion = async ({
     fetchData,
     groupBy = item => item.type,
@@ -15,17 +17,19 @@ const GroupedAccordion = async ({
     }, {})
 
     return (
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
             {Object.entries(grouped).map(([group, items]) => (
-                <details key={group} className="border rounded shadow">
-                    <summary className="cursor-pointer px-4 py-2 text-black bg-gray-100 font-semibold">
+                <details key={group} className="w-3/4">
+                    <summary className="text-left cursor-pointer rounded px-4 py-2 border border-white/50 bg-gold-700 font-semibold">
                         {group}
                     </summary>
-                    <div className="p-4 space-y-2 bg-white">
-                        {items.map(item => (
-                            <ItemComponent key={item.id} {...item} />
-                        ))}
-                    </div>
+                    {items.map(item => (
+                        <div key={item.id} className="px-4 pt-4 flex flex-col justify-between items-center">
+                            <BasicCard>
+                                <ItemComponent {...item} />
+                            </BasicCard>
+                        </div>
+                    ))}
                 </details>
             ))}
         </div>
