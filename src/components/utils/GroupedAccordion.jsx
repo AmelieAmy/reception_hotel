@@ -1,25 +1,34 @@
 import BasicCard from "./cards/BasicCard"
 
-const GroupedAccordion = async ({
-    fetchData,
+const GroupedAccordion = ({
+    datas,
+    searchByName,
+    searchByNumber,
+    searchFromPrice,
+    searchToPrice,
     groupBy = item => item.type,
     exclude = () => false,
     ItemComponent
 }) => {
-    const data = await fetchData()
-    const filtered = data.filter(item => !exclude(item))
-
-    const grouped = filtered.reduce((acc, item) => {
-        const groupKey = groupBy(item)
-        acc[groupKey] ||= []
-        acc[groupKey].push(item)
-        return acc
-    }, {})
+    const notExcludedDatas = datas.filter(item => !exclude(item))
+    const filteredDatas = notExcludedDatas.filter(data =>
+        data.name.toLowerCase().includes(searchByName?.toLowerCase()) &&
+        data.number == searchByNumber &&
+        data.price >= searchFromPrice  &&
+        (searchToPrice !== '' ? data.price <= searchToPrice : data.price <= 999999.99)
+    );
+    const finalFilteredDatas = filteredDatas.length > 0 ? filteredDatas : notExcludedDatas;
+    const grouped = finalFilteredDatas.reduce((acc, item) => {
+            const groupKey = groupBy(item)
+            acc[groupKey] ||= []
+            acc[groupKey].push(item)
+            return acc
+        }, {})
 
     return (
         <div className="flex flex-col items-center space-y-4">
-            {Object.entries(grouped).map(([group, items]) => (
-                <details key={group} className="w-3/4">
+            {Object.entries(grouped).map(([group, items], index) => (
+                <details key={group} className="w-3/4" {...(index === 0 && { open: true })}>
                     <summary className="text-left cursor-pointer rounded px-4 py-2 border border-white/50 bg-gold-700 font-semibold">
                         {group}
                     </summary>

@@ -67,7 +67,7 @@ const ReservationCard = ({ resa }) => {
             </div>
             <div className='basis-2/7 space-y-3'>
                 <div className='flex flex-row justify-start items-baseline'>
-                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{resa.dueAmount}</span>€</p>
+                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{resa.dueAmount.toFixed(2)}</span>€</p>
                     <p className='mx-2 text-xs'>TTC</p>
                 </div>
                 <BasicButton linkPath={RESERVATION_MODIFICATION(resa.id)}>

@@ -1,12 +1,18 @@
 'use client'
-import { useState } from 'react';
-import ReservationCard from './ReservationCard';
-import BasicCard from '../utils/cards/BasicCard';
 import { Eye } from 'lucide-react';
+import { useState } from 'react';
+import BasicCard from '../utils/cards/BasicCard';
+import ReservationCard from './ReservationCard';
 
-const ReservationList = ({ pastReservations, recentReservations }) => {
+const ReservationList = ({ searchByName, searchByArrival, pastReservations, recentReservations }) => {
     const [showPast, setShowPast] = useState(false)
-    const reservations = showPast ? pastReservations : recentReservations
+    const reservations = showPast ? pastReservations : recentReservations;
+
+    const filteredReservations = reservations.filter(resa =>
+        (resa.lastname.toLowerCase().includes(searchByName?.toLowerCase()) ||
+            resa.firstname.toLowerCase().includes(searchByName?.toLowerCase())) &&
+        resa.arrival >= searchByArrival
+    ).sort((a, b) => new Date(a.arrival) - new Date(b.arrival));
 
     return (
         <div className='flex flex-col justify-between items-end space-y-6'>
@@ -27,10 +33,10 @@ const ReservationList = ({ pastReservations, recentReservations }) => {
             </button>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-10">
-                {reservations.length === 0 ? (
+                {filteredReservations.length === 0 ? (
                     <p>Aucune réservation</p>
                 ) : (
-                    reservations.map((resa) => (
+                    filteredReservations.map((resa) => (
                         <BasicCard key={resa.id}>
                             <ReservationCard resa={resa} />
                         </BasicCard>

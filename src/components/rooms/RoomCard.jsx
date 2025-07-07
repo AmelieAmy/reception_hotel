@@ -48,7 +48,7 @@ const RoomCard = ({
             </div>
             <div className='basis-1/4 space-y-3'>
                 <div className='mb-4'>
-                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{price}</span>€</p>
+                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{price.toFixed(2)}</span>€</p>
                     <p className='mx-2 text-sm'>Inclus charges et taxes</p>
                 </div>
                 <BasicButton linkPath={ROOM_MODIFICATION(id)}>Modification</BasicButton>

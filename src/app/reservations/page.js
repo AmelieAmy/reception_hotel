@@ -1,8 +1,5 @@
-import ReservationList from "@/components/reservations/ReservationList";
-import { CreationButton } from "@/components/utils/buttons/AllButtons";
-import Header from "@/components/utils/header-footer/Header";
+import Reservations from "@/components/reservations/Reservations";
 import { GET_PAST_RESERVATIONS, GET_RECENT_RESERVATIONS } from "@/utils/constants/urls/urls_api";
-import { RESERVATION_CREATION } from "@/utils/constants/urls/urls_front";
 
 async function fetchPastReservations() {
     const res = await fetch(GET_PAST_RESERVATIONS, { cache: 'no-store' })
@@ -28,29 +25,15 @@ async function fetchRecentReservations() {
     }));
 }
 
-const Reservations = async () => {
+const ReservationsPage = async () => {
     const pastReservationsData = await fetchPastReservations();
     const recentReservationsData = await fetchRecentReservations();
 
     return (
         <main className="p-10 w-full min-h-screen flex-1 text-center">
-            <div className="mb-6">
-                <Header>
-                    <h1 className="text-xl">Liste des réservations</h1>
-                    <div className="text-2xl flex flex-row justify-around items-center">
-                        <p>Nom</p> <p>date darrivée</p>
-                    </div>
-                </Header>
-            </div>
-            <div className="w-1/4">
-                <CreationButton libelle='une réservation' linkPath={RESERVATION_CREATION} />
-            </div>
-            <ReservationList
-                pastReservations={pastReservationsData}
-                recentReservations={recentReservationsData}
-            />
+            <Reservations pastReservationsData={pastReservationsData} recentReservationsData={recentReservationsData} />
         </main>
     )
 }
 
-export default Reservations; 
+export default ReservationsPage; 

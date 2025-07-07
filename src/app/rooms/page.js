@@ -1,9 +1,5 @@
-import RoomCard from '@/components/rooms/RoomCard';
-import { CreationButton } from "@/components/utils/buttons/AllButtons";
-import GroupedAccordion from "@/components/utils/GroupedAccordion";
-import Header from "@/components/utils/header-footer/Header";
+import Rooms from "@/components/rooms/Rooms";
 import { GET_ROOMS } from "@/utils/constants/urls/urls_api";
-import { ROOM_CREATION, ROOM_TYPE_CREATION } from "@/utils/constants/urls/urls_front";
 
 async function fetchRooms() {
     const res = await fetch(GET_ROOMS, { cache: 'no-store' })
@@ -12,28 +8,14 @@ async function fetchRooms() {
     return data
 }
 
-export const rooms = async () => {
+export const roomsPage = async () => {
+    const roomsData = await fetchRooms();
+
     return (
         <main className="p-10 w-full min-h-screen flex-1 text-center">
-            <div className="mb-6">
-                <Header>
-                    <h1 className="text-xl">Liste des chambres</h1>
-                    <div className="text-2xl flex flex-row justify-around items-center">
-                    <p>Nom</p> <p>numero</p>
-                    </div>
-                </Header>
-            </div>
-            <div className="w-full flex flex-row justify-start items-center space-x-8">
-                <CreationButton libelle='une chambre' linkPath={ROOM_CREATION} />
-                <CreationButton libelle='un type de chambre' linkPath={ROOM_TYPE_CREATION} />
-            </div>
-            <GroupedAccordion
-                fetchData={fetchRooms}
-                groupBy={room => room.type}
-                ItemComponent={RoomCard}
-            />
+            <Rooms roomsData={roomsData} />
         </main>
     )
 }
 
-export default rooms; 
+export default roomsPage; 

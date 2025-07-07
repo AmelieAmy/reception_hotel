@@ -15,7 +15,7 @@ const Header = ({ children }) => {
                 />
             </Link>
             <div className='basis-4/6 flex justify-center items-center'>
-                <div className='text-2xl text-dark-900 pl-6'>
+                <div className='w-full text-center text-2xl text-dark-900 pl-6'>
                     {children}
                 </div>
             </div>
