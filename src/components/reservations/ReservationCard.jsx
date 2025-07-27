@@ -1,11 +1,13 @@
 'use client'
+import { DELETE_RESERVATION_BY_ID } from '@/utils/constants/urls/urls_api';
+import { RESERVATION_DETAILS, RESERVATION_MODIFICATION } from '@/utils/constants/urls/urls_front';
 import { formatDateToEuropean } from '@/utils/dateFormat';
 import { Cake } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
 import ConfirmationModal from '../utils/modal/ConfirmationModal';
-import Image from 'next/image';
-import { RESERVATION_DETAILS, RESERVATION_MODIFICATION } from '@/utils/constants/urls/urls_front';
 
 const ReservationCard = ({ resa }) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -13,6 +15,22 @@ const ReservationCard = ({ resa }) => {
     const currentMonth = new Date().getMonth();
     const birthDateMonth = birthDate.getMonth();
     const haveBirthdaySoon = currentMonth === birthDateMonth;
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(DELETE_RESERVATION_BY_ID(id), {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Échec de la suppression');
+            }
+            if (response.status === 200) {
+                toast.success('Réservation supprimée ✅');
+                setModalOpen(false)
+            }
+        } catch (error) {
+            console.error('Erreur:', error.message);
+        }
+    };
 
     return (
         <div className='flex-1 flex flex-row justify-between text-dark-900 space-x-4'>
@@ -74,7 +92,7 @@ const ReservationCard = ({ resa }) => {
                     <div className='flex flex-col justify-between items-center'>
                         <p>Check In</p>
                         <hr className='w-3/4' />
-                        <p>Modification</p>                        
+                        <p>Modification</p>
                     </div>
                 </BasicButton>
                 <BasicButton linkPath={RESERVATION_DETAILS(resa.id)}>Détails</BasicButton>
@@ -83,7 +101,7 @@ const ReservationCard = ({ resa }) => {
             <ConfirmationModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                onConfirmation={() => console.log('confirmer')}
+                onConfirmation={() => handleDelete(resa.id)}
                 libelle='annuler cette réservation'
             />
         </div>

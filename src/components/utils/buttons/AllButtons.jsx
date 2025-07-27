@@ -48,10 +48,19 @@ export function CreationButton({ libelle, linkPath }) {
     )
 }
 
-export function BackButton({ onClick }) {
+export function BackButton({ router }) {
+    const handleBack = () => {
+        const previousUrl = sessionStorage.getItem('previousCleanUrl')
+        if (previousUrl) {
+            sessionStorage.removeItem('previousCleanUrl')
+            router.replace(previousUrl)
+        } else {
+            router.back()
+        }
+    }
     return (
         <button
-            onClick={onClick}
+            onClick={handleBack}
             type="button"
             className="w-1/3 flex flex-row justify-start items-center space-x-2 hover:underline my-6 ml-6">
             <ChevronLeft className="w-5 h-5" />

@@ -10,34 +10,18 @@ const ReservationModification = async ({ params }) => {
     if (!resultGetReservation.ok) return notFound()
     const reservationArray = await resultGetReservation.json();
     const resa = reservationArray[0];
-    let parsedServices = [];
-    try {
-        parsedServices = JSON.parse(resa.services || '[]');
-    } catch {
-        parsedServices = [];
-    }
-    let parsedPayment = [];
-    try {
-        parsedPayment = JSON.parse(resa.payment || '[]');
-    } catch {
-        parsedPayment = [];
-    }
-    const formattedResa = {
-        ...resa,
-        services: parsedServices,
-        payment: parsedPayment,
-    };
-
     const servicesResponse = await fetch(GET_SERVICES, { cache: 'no-store' });
     if (!servicesResponse.ok) throw new Error('Échec du chargement');
     const services = await servicesResponse.json();
 
     return (
-        <div className="p-10">
-            <Header>
-                <h1 className="text-lg">Réservation de : <span className="text-2xl">{formattedResa.lastname} {formattedResa.firstname}</span></h1>
-            </Header>
-            <FormReservationModificationOrCreation services={services} reservation={formattedResa} />
+        <div className="relative">
+            <div className="p-10">
+                <Header>
+                    <h1 className="text-lg">Réservation de : <span className="text-2xl">{resa.lastname} {resa.firstname}</span></h1>
+                </Header>
+            </div>
+            <FormReservationModificationOrCreation services={services} reservation={resa} />
         </div>
     )
 }

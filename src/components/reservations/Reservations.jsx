@@ -2,7 +2,9 @@
 import { RESERVATION_CREATION } from '@/utils/constants/urls/urls_front'
 import { getTodaySDate } from '@/utils/dateFormat'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { CreationButton } from '../utils/buttons/AllButtons'
 import Header from '../utils/header-footer/Header'
 import ReservationList from './ReservationList'
@@ -10,6 +12,28 @@ import ReservationList from './ReservationList'
 const Reservations = ({ pastReservationsData, recentReservationsData }) => {
     const [searchByName, setSearchByName] = useState('');
     const [searchByArrival, setSearchByArrival] = useState('');
+    const searchParams = useSearchParams();
+    const success = searchParams.get('success');
+    const toastShown = useRef(false);
+
+    useEffect(() => {
+        const toastMessage = success === '1' ? 'Réservation créée avec succès 🎉' : 'Réservation modifiée avec succès 🎉'
+        if ((success === '1' || success === '2') && !toastShown.current) {
+            toast.success(toastMessage);
+            toastShown.current = true;
+        }
+    }, [success]);
+
+    useEffect(() => {
+        const url = new URL(window.location.href)
+
+        if (url.searchParams.has('success')) {
+            url.searchParams.delete('success')
+            const cleanUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '')
+
+            sessionStorage.setItem('previousCleanUrl', cleanUrl)
+        }
+    }, [])
 
     return (
         <div className="m-0">

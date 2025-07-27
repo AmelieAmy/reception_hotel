@@ -1,5 +1,7 @@
 'use client'
 import BasicCard from "@/components/utils/cards/BasicCard";
+import { CREATE_SERVICE, UPDATE_SERVICE_BY_ID } from "@/utils/constants/urls/urls_api";
+import { SERVICES } from "@/utils/constants/urls/urls_front";
 import { SquarePen } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -26,8 +28,28 @@ const FormServiceModificationOrCreation = ({ service, serviceTypes, creation }) 
         }
     });
 
-    const onSubmit = (data) => {
-        console.log('Form data:', data);
+    const onSubmit = async (data) => {
+        try {
+            const url = creation ? CREATE_SERVICE : UPDATE_SERVICE_BY_ID(service.id)
+            const method = creation ? 'POST' : 'PUT';
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            console.log('response:', response);
+            if (!response.ok) throw new Error("Erreur lors de l'envoi");
+            if (response.status === 200) {
+                creation ?
+                router.push(SERVICES+'?success=1'):
+                router.push(SERVICES+'?success=2');
+            }
+        } catch (err) {
+            console.error('Erreur:', err.message);
+        }
     };
 
     return (
@@ -134,7 +156,7 @@ const FormServiceModificationOrCreation = ({ service, serviceTypes, creation }) 
                             {errors.description && <p className="text-red-700 text-sm">{errors.description.message}</p>}
                         </div>
 
-                        <ValidationButton libelle="Modifier" />
+                        <ValidationButton libelle={creation ? 'Créer' : 'Modifier'} />
 
                         <ServiceTypeModal
                             isOpen={modalOpen}

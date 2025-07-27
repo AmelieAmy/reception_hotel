@@ -8,7 +8,7 @@ async function fetchRooms() {
     return data
 }
 
-export const roomsPage = async () => {
+export const RoomsPage = async () => {
     const roomsData = await fetchRooms();
 
     return (
@@ -18,4 +18,4 @@ export const roomsPage = async () => {
     )
 }
 
-export default roomsPage; 
+export default RoomsPage; 

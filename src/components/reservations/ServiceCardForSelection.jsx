@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const ServiceCardForSelection = ({ service }) => {
     return (
-        <div className='px-6 flex flex-row justify-between items-center text-dark-900 space-x-6'>
-            <div className='py-2 flex-1 flex flex-col justify-around items-start space-y-3'>
+        <div className='px-4 flex flex-row justify-between items-center text-dark-900 space-x-12'>
+            <div className='py-2 flex-1 flex flex-col justify-around items-start space-y-2'>
                 <div className='w-full flex flex-row justify-start items-center space-x-4'>
                     <div className="w-12 h-12 overflow-hidden relative flex flex-col items-center justify-center rounded-lg drop-shadow-sm/75 space-y-2">
                         <Image
@@ -21,8 +21,8 @@ const ServiceCardForSelection = ({ service }) => {
                     <p>Heures d'ouverture :</p>
                     <p className='font-semibold'>{service.openingHour}</p>
                 </div>
-                <div className='h-14 flex flex-row justify-around items-center border border-gold-600 rounded-lg py-1 px-2'>
-                    <p>{service.description}</p>
+                <div className='flex flex-row justify-around items-center border border-gold-600 rounded-lg py-2 px-4'>
+                    <p className=''>{service.description}</p>
                 </div>
             </div>
             <div className='space-y-3'>

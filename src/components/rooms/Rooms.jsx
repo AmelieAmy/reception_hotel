@@ -1,15 +1,39 @@
 'use client'
 import { ROOM_CREATION, ROOM_TYPE_CREATION } from '@/utils/constants/urls/urls_front'
+import { Search } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { CreationButton } from '../utils/buttons/AllButtons'
 import GroupedAccordion from '../utils/GroupedAccordion'
 import Header from '../utils/header-footer/Header'
 import RoomCard from './RoomCard'
-import { useState } from 'react'
-import { Search } from 'lucide-react'
 
 const Rooms = ({ roomsData }) => {
     const [searchByName, setSearchByName] = useState('');
     const [searchByNumber, setSearchByNumber] = useState('');
+    const searchParams = useSearchParams();
+    const success = searchParams.get('success');
+    const toastShown = useRef(false);
+
+    useEffect(() => {
+        const toastMessage = success === '1' ? 'Chambre créée avec succès 🎉' : 'Chambre modifiée avec succès 🎉'
+        if ((success === '1' || success === '2') && !toastShown.current) {
+            toast.success(toastMessage);
+            toastShown.current = true;
+        }
+    }, [success]);
+    
+    useEffect(() => {
+        const url = new URL(window.location.href)
+
+        if (url.searchParams.has('success')) {
+            url.searchParams.delete('success')
+            const cleanUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '')
+
+            sessionStorage.setItem('previousCleanUrl', cleanUrl)
+        }
+    }, [])
 
     return (
         <div className="m-0">

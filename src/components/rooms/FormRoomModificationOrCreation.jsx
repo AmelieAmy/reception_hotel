@@ -1,6 +1,8 @@
 'use client'
 import RoomTypeModal from "@/components/rooms/RoomTypeModal";
 import BasicCard from "@/components/utils/cards/BasicCard";
+import { CREATE_ROOM, UPDATE_ROOM_BY_ID } from "@/utils/constants/urls/urls_api";
+import { ROOMS } from "@/utils/constants/urls/urls_front";
 import { SquarePen } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,8 +11,9 @@ import { BackButton, SelectionButtonToModal, ValidationButton } from "../utils/b
 
 const FormRoomModificationOrCreation = ({ room, roomTypes, creation }) => {
     const router = useRouter();
+    const [idTypeChmb, setIdTypeChmb] = useState(creation ? null : room.idTypeChmb);
     const [modalOpen, setModalOpen] = useState(false);
-    
+
     const {
         register,
         handleSubmit,
@@ -27,8 +30,34 @@ const FormRoomModificationOrCreation = ({ room, roomTypes, creation }) => {
         }
     });
 
-    const onSubmit = (data) => {
-        console.log('Form data:', data);
+    const onSubmit = async (data) => {
+        const formattedData = {
+            name: data.name,
+            price: data.price,
+            number: data.number,
+            idTypeChmb: idTypeChmb
+        }
+        try {
+            const url = creation ? CREATE_ROOM : UPDATE_ROOM_BY_ID(room.id)
+            const method = creation ? 'POST' : 'PUT';
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formattedData),
+            });
+
+            console.log('response:', response);
+            if (!response.ok) throw new Error("Erreur lors de l'envoi");
+            if (response.status === 200) {
+                creation ?
+                    router.push(ROOMS + '?success=1') :
+                    router.push(ROOMS + '?success=2');
+            }
+        } catch (err) {
+            console.error('Erreur:', err.message);
+        }
     };
 
     return (
@@ -140,7 +169,7 @@ const FormRoomModificationOrCreation = ({ room, roomTypes, creation }) => {
                             ></textarea>
                         </div>
 
-                        <ValidationButton libelle="Modifier" />
+                        <ValidationButton libelle={creation ? 'Créer' : 'Modifier'} />
 
                         <RoomTypeModal
                             isOpen={modalOpen}
@@ -150,6 +179,7 @@ const FormRoomModificationOrCreation = ({ room, roomTypes, creation }) => {
                                 setValue('type', type.libelle);
                                 setValue('description', type.description);
                                 setValue('bedCapacity', type.bedCapacity);
+                                setIdTypeChmb(type.id)
                             }}
                         />
                     </form>

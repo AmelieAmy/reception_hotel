@@ -1,9 +1,11 @@
 'use client'
-import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
-import Image from 'next/image';
-import ConfirmationModal from '../utils/modal/ConfirmationModal';
-import { useState } from 'react';
+import { DELETE_ROOM_BY_ID } from '@/utils/constants/urls/urls_api';
 import { ROOM_MODIFICATION } from '@/utils/constants/urls/urls_front';
+import Image from 'next/image';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
+import ConfirmationModal from '../utils/modal/ConfirmationModal';
 
 const RoomCard = ({
     id,
@@ -15,6 +17,23 @@ const RoomCard = ({
     description
 }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(DELETE_ROOM_BY_ID(id), {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Échec de la suppression');
+            }
+            if (response.status === 200) {
+                toast.success('Chambre supprimée ✅');
+                setModalOpen(false)
+            }
+        } catch (error) {
+            console.error('Erreur:', error.message);
+        }
+    };
+
     return (
         <div className='flex flex-col sm:flex-row justify-between items-center text-dark-900'>
             <div className="basis-1/4 2xl:basis-2/7 w-56 h-48 overflow-hidden relative flex flex-col items-center justify-center rounded-xl drop-shadow-md/25 space-y-2">
@@ -57,7 +76,7 @@ const RoomCard = ({
             <ConfirmationModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                onConfirmation={() => console.log('confirmer')}
+                onConfirmation={() => handleDelete(id)}
                 libelle='supprimer cette chambre'
             />
         </div>

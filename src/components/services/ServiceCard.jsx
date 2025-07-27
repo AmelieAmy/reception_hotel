@@ -1,9 +1,11 @@
 'use client'
-import { useState } from 'react';
-import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
-import Image from 'next/image';
-import ConfirmationModal from '../utils/modal/ConfirmationModal';
+import { DELETE_SERVICE_BY_ID } from '@/utils/constants/urls/urls_api';
 import { SERVICE_MODIFICATION } from '@/utils/constants/urls/urls_front';
+import Image from 'next/image';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { BasicButton, DangerButton } from '../utils/buttons/AllButtons';
+import ConfirmationModal from '../utils/modal/ConfirmationModal';
 
 const ServiceCard = ({
     id,
@@ -15,6 +17,23 @@ const ServiceCard = ({
     description
 }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(DELETE_SERVICE_BY_ID(id), {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Échec de la suppression');
+            }
+            if (response.status === 200) {
+                toast.success('Service supprimé ✅');
+                setModalOpen(false)
+            }
+        } catch (error) {
+            console.error('Erreur:', error.message);
+        }
+    };
+
     return (
         <div className='flex flex-row justify-between items-center text-dark-900'>
             <div className='px-6 py-2 flex-1 flex flex-col justify-between items-start space-y-3'>
@@ -50,7 +69,7 @@ const ServiceCard = ({
             </div>
             <div className='basis-1/4 space-y-3'>
                 <div className='mb-4'>
-                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{price.toFixed(2)}</span>€ / jour</p>
+                    <p className='text-xl m-0'><span className='text-yellow-600 text-4xl mr-2'>{price.toFixed(2)}</span>€</p>
                     <p className='mx-2 text-sm'>Inclus charges et taxes</p>
                 </div>
                 <BasicButton linkPath={SERVICE_MODIFICATION(id)}>Modification</BasicButton>
@@ -59,7 +78,7 @@ const ServiceCard = ({
             <ConfirmationModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                onConfirmation={() => console.log('confirmer')}
+                onConfirmation={() => handleDelete(id)}
                 libelle='supprimer ce service'
             />
         </div>

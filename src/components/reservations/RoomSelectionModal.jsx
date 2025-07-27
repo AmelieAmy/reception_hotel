@@ -30,7 +30,7 @@ const RoomSelectionModal = ({ isOpen, onClose, arrival, departure, sleepersAmoun
     if (!isOpen) return null;
 
     return (
-        <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        <div className={`fixed inset-y-0 z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}>
             <div className="bg-stone-500 pt-8 px-10 rounded-lg max-w-6xl w-full max-h-[80vh] overflow-y-auto">
                 <div className="flex-1 mb-10 flex flex-row justify-between items-center text-white">
@@ -47,13 +47,7 @@ const RoomSelectionModal = ({ isOpen, onClose, arrival, departure, sleepersAmoun
                 {!loading &&
                     <div className='flex flex-col justify-between items-center space-y-4'>
                         {rooms.map((room) => (
-                            // <RoomMiniCard key={room.id} room={room} onSelect={onSelect} />
-                            <div key={room.id} className="p-4 border rounded mb-2 hover:bg-stone-600 cursor-pointer"
-                                onClick={() => onSelect(room)}>
-                                <p className="font-semibold">{room.name}</p>
-                                <p>Type : {room.type}</p>
-                                <p>Capacité : {room.bedCapacity} personnes</p>
-                            </div>
+                            <RoomMiniCard key={room.id} room={room} onSelect={onSelect} />
                         ))}
                     </div>
                 }

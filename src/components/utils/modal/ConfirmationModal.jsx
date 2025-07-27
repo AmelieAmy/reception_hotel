@@ -4,7 +4,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirmation, libelle }) => {
     if (!isOpen) return null;
 
     const handleConfirmationClick = () => {
-        onConfirmation;
+        onConfirmation();
         onClose;
     }
 
@@ -17,7 +17,11 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirmation, libelle }) => {
                         <SquareX className="w-6 h-6 hover:scale-125" />
                     </button>
                 </div>
-                <button type="submit" className="w-1/2 bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+                <button
+                    onClick={handleConfirmationClick}
+                    type="submit"
+                    className="w-1/2 bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"
+                >
                     Supprimer
                 </button>
             </div>

@@ -4,25 +4,13 @@ import { GET_PAST_RESERVATIONS, GET_RECENT_RESERVATIONS } from "@/utils/constant
 async function fetchPastReservations() {
     const res = await fetch(GET_PAST_RESERVATIONS, { cache: 'no-store' })
     if (!res.ok) throw new Error('Échec chargement des données pour les anciennes réservations')
-    const data = await res.json()
-
-    return data.map(reservation => ({
-        ...reservation,
-        services: JSON.parse(reservation.services || '[]'),
-        payment: JSON.parse(reservation.payment || '[]'),
-    }));
+    return await res.json()
 }
 
 async function fetchRecentReservations() {
     const res = await fetch(GET_RECENT_RESERVATIONS, { cache: 'no-store' })
     if (!res.ok) throw new Error('Échec chargement des données pour les récentes réservations')
-    const data = await res.json()
-
-    return data.map(reservation => ({
-        ...reservation,
-        services: JSON.parse(reservation.services || '[]'),
-        payment: JSON.parse(reservation.payment || '[]'),
-    }));
+    return await res.json()
 }
 
 const ReservationsPage = async () => {

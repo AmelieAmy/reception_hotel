@@ -1,12 +1,12 @@
 import FormServiceModificationOrCreation from "@/components/services/FormServiceModificationOrCreation";
 import Header from "@/components/utils/header-footer/Header";
-import { GET_SERVICE_TYPES, GET_SERVICES_BY_ID } from "@/utils/constants/urls/urls_api";
+import { GET_SERVICE_BY_ID, GET_SERVICE_TYPES } from "@/utils/constants/urls/urls_api";
 import { notFound } from 'next/navigation';
 
 const ServiceModification = async ({ params }) => {
     const { id } = await params
 
-    const resultGetServices = await fetch(GET_SERVICES_BY_ID(id));
+    const resultGetServices = await fetch(GET_SERVICE_BY_ID(id));
     if (!resultGetServices.ok) return notFound()
     const serviceArray = await resultGetServices.json();
     const service = serviceArray[0];
